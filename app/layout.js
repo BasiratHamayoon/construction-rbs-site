@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Components/Navbar"; // Import Navbar here
+import Footer from "./Components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "RBS",
+  title: "RBS Construction",
   description: "All Building Work Undertaken",
 };
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />  {/* This ensures Navbar appears on all pages */}
         <main>{children}</main> {/* This will render the content specific to each page */}
+        <Footer />
       </body>
     </html>
   );

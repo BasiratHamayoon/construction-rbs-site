@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import { LuInstagram } from "react-icons/lu";
 import { CgFacebook } from "react-icons/cg";
 import { FaTiktok } from "react-icons/fa6";
@@ -11,218 +10,24 @@ import image1 from '../../public/Home/img1.jpg';
 import image2 from '../../public/Home/img2.jpg';
 
 function SubscriptionSection() {
-  const [sectionRef, sectionInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  // Faster container animation
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2, // Reduced from 0.4
-        duration: 0.6, // Reduced from 1.2
-        ease: "easeOut",
-      },
-    },
-  };
-
-  // Faster social icons animation
-  const socialIconVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: -30, // Reduced from -60
-      scale: 0.8, // Reduced from 0.3
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200, // Increased stiffness
-        damping: 15, // Adjusted damping
-        duration: 0.4, // Reduced from 0.8
-      },
-    },
-    hover: {
-      scale: 1.2, // Reduced from 1.3
-      y: -5, // Reduced from -10
-      rotate: 8, // Reduced from 15
-      backgroundColor: "#FF6B35",
-      boxShadow: "0 10px 20px rgba(255, 107, 53, 0.4)", // Reduced shadow
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10,
-        duration: 0.2, // Reduced from 0.3
-      },
-    },
-    tap: {
-      scale: 0.9, // Reduced from 0.8
-      rotate: -5, // Reduced from -15
-      transition: {
-        duration: 0.1, // Reduced from 0.2
-      },
-    },
-  };
-
-  // Faster card animation
-  const cardVariants = {
-    hidden: { 
-      opacity: 0, 
-      x: index => index % 2 === 0 ? -50 : 50, // Reduced from ±100
-      y: 30, // Reduced from 50
-      scale: 0.9, // Increased from 0.8
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 120, // Increased from 80
-        damping: 12, // Reduced from 15
-        duration: 0.6, // Reduced from 1
-      },
-    },
-    hover: {
-      y: -15, // Reduced from -20
-      scale: 1.02, // Reduced from 1.03
-      boxShadow: "0 25px 40px -10px rgba(0, 0, 0, 0.4)", // Reduced shadow
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 15,
-        duration: 0.3, // Reduced from 0.4
-      },
-    },
-  };
-
-  // Faster image animation
-  const imageVariants = {
-    hidden: { 
-      opacity: 0, 
-      scale: 1.1, // Reduced from 1.4
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5, // Reduced from 1
-        ease: "easeOut",
-        delay: 0.1, // Reduced from 0.3
-      },
-    },
-    hover: {
-      scale: 1.05, // Reduced from 1.08
-      transition: {
-        duration: 0.3, // Reduced from 0.5
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  // Faster button animation
-  const buttonVariants = {
-    hidden: { 
-      opacity: 0, 
-      scale: 0.8, // Increased from 0.5
-      y: 20 // Reduced from 30
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { 
-        delay: 0.4, // Reduced from 0.8
-        duration: 0.4, // Reduced from 0.6
-        type: "spring",
-        stiffness: 300 // Increased from 200
-      }
-    },
-    hover: {
-      scale: 1.05, // Reduced from 1.1
-      backgroundColor: "#ffffff",
-      color: "#000000",
-      borderColor: "#ffffff",
-      boxShadow: [
-        "0 0 0 0 rgba(255, 255, 255, 0.4)",
-        "0 0 0 10px rgba(255, 255, 255, 0)", // Reduced from 15px
-        "0 0 0 0 rgba(255, 255, 255, 0)"
-      ],
-      transition: {
-        scale: {
-          duration: 0.2, // Reduced from 0.3
-        },
-        backgroundColor: {
-          duration: 0.2, // Reduced from 0.3
-        },
-        boxShadow: {
-          duration: 0.6, // Reduced from 1
-          ease: "easeOut",
-        },
-      },
-    },
-    tap: {
-      scale: 0.95,
-    },
-  };
-
-  // Faster text animation
-  const textVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 20, // Reduced from 40
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5, // Reduced from 0.8
-        ease: "easeOut",
-        delay: 0.1, // Reduced from 0.2
-      },
-    },
-  };
-
-  // Faster title animation
-  const titleVariants = {
-    hidden: { 
-      opacity: 0, 
-      scale: 0.9, // Increased from 0.8
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.6, // Reduced from 1.2
-        ease: "easeOut",
-      },
-    },
-  };
-
   const socialLinks = [
     {
-      icon: <LuInstagram className="text-3xl lg:text-[45px]" />,
+      icon: <LuInstagram className="text-2xl lg:text-3xl" />,
       href: "https://instagram.com/yourprofile",
       label: "Instagram"
     },
     {
-      icon: <CgFacebook className="text-3xl lg:text-[45px]" />,
+      icon: <CgFacebook className="text-2xl lg:text-3xl" />,
       href: "https://facebook.com/yourprofile",
       label: "Facebook"
     },
     {
-      icon: <FaTiktok className="text-3xl lg:text-[45px]" />,
+      icon: <FaTiktok className="text-2xl lg:text-3xl" />,
       href: "https://tiktok.com/yourprofile",
       label: "TikTok"
     },
     {
-      icon: <BsWhatsapp className="text-3xl lg:text-[45px]" />,
+      icon: <BsWhatsapp className="text-2xl lg:text-3xl" />,
       href: "https://wa.me/yournumber",
       label: "WhatsApp"
     },
@@ -234,149 +39,463 @@ function SubscriptionSection() {
       title: "Residential Construction",
       image: image1,
       description: "Residential construction projects such as the building of Houses, flats, bungalow, cottage, and other residential facilities.",
-      bgColor: "bg-gradient-to-br from-gray-700 to-gray-900",
+      bgColor: "bg-white",
     },
     {
       type: "Commercial",
       title: "Commercial Construction",
       image: image2,
       description: "Commercial construction projects such as the building of Offices, industrial facilities and other business establishments.",
-      bgColor: "bg-gradient-to-br from-black to-gray-800",
+      bgColor: "bg-white",
     },
   ];
 
+  // Enhanced Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.4,
+        duration: 1.2
+      }
+    }
+  };
+
+  const slideUpVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 80,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    }
+  };
+
+  const slideInLeftVariants = {
+    hidden: { 
+      opacity: 0, 
+      x: -100,
+      rotate: -5
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotate: 0,
+      transition: {
+        duration: 1.2,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const slideInRightVariants = {
+    hidden: { 
+      opacity: 0, 
+      x: 100,
+      rotate: 5
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotate: 0,
+      transition: {
+        duration: 1.2,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const socialIconVariants = {
+    hidden: { scale: 0, rotate: -180 },
+    visible: (i) => ({
+      scale: 1,
+      rotate: 0,
+      transition: {
+        delay: i * 0.3,
+        duration: 0.8,
+        type: "spring",
+        stiffness: 200
+      }
+    }),
+    hover: {
+      scale: 1.3,
+      rotate: 360,
+      backgroundColor: "#001C73",
+      color: "#ffffff",
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const cardHoverVariants = {
+    hover: {
+      y: -15,
+      scale: 1.02,
+      boxShadow: "0 35px 60px -12px rgba(0, 28, 115, 0.25)",
+      borderColor: "#001C73",
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const imageHoverVariants = {
+    hover: {
+      scale: 1.15,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const buttonHoverVariants = {
+    hover: {
+      scale: 1.08,
+      backgroundColor: "#001C73",
+      color: "#ffffff",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const textRevealVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 30,
+      filter: "blur(10px)"
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const staggerTextVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const paragraphVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 40,
+      filter: "blur(5px)"
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const pulseGlow = {
+    scale: [1, 1.1, 1],
+    opacity: [0.3, 0.7, 0.3],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  };
+
+  const floatingAnimation = {
+    y: [0, -20, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  };
+
   return (
-    <motion.section
-      ref={sectionRef}
-      initial="hidden"
-      animate={sectionInView ? "visible" : "hidden"}
-      variants={containerVariants}
-      className="flex flex-col justify-center items-center lg:gap-16 gap-12 bg-gradient-to-b from-white to-gray-100 lg:px-20 px-6 py-14 lg:py-20 overflow-hidden"
-    >
-      {/* Social Icons */}
-      <motion.div
-        variants={containerVariants}
-        className="flex justify-center items-center gap-5 lg:gap-7 flex-wrap"
-      >
-        {socialLinks.map((social, index) => (
-          <motion.a
-            key={index}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={social.label}
-            className="bg-gradient-to-br from-[#001C73] via-[#0038a8] to-[#0055ff] p-3 lg:p-4 rounded-xl text-white cursor-pointer relative overflow-hidden group"
-            variants={socialIconVariants}
-            whileHover="hover"
-            whileTap="tap"
-            custom={index}
-          >
-            {social.icon}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "200%" }}
-              transition={{ duration: 0.5 }} // Reduced from 0.8
-            />
-          </motion.a>
-        ))}
-      </motion.div>
+    <section className="relative min-h-screen flex flex-col justify-center items-center py-20 bg-white overflow-hidden">
+      {/* Enhanced Background decorative elements */}
+      <motion.div 
+        className="absolute top-20 right-10 w-32 h-32 bg-[#001C73]/10 rounded-full blur-3xl"
+        animate={pulseGlow}
+      />
+      
+      <motion.div 
+        className="absolute bottom-20 left-10 w-40 h-40 bg-[#001C73]/5 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.5, 0.2],
+          rotate: [0, 180, 360]
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
 
-      {/* Cards Grid */}
-      <motion.div
+      {/* Floating particles */}
+      <motion.div 
+        className="absolute top-1/3 left-1/4 w-3 h-3 bg-[#001C73]/30 rounded-full"
+        animate={{
+          y: [0, -50, 0],
+          x: [0, 30, 0],
+          scale: [1, 1.5, 1]
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <motion.div 
+        className="absolute bottom-1/3 right-1/4 w-2 h-2 bg-[#001C73]/40 rounded-full"
+        animate={{
+          y: [0, 40, 0],
+          x: [0, -20, 0],
+          scale: [1, 1.8, 1]
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+      />
+
+      <motion.div 
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-20"
         variants={containerVariants}
-        className="grid lg:grid-cols-2 grid-cols-1 justify-center items-stretch gap-8 lg:gap-12 w-full max-w-7xl"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
       >
-        {cards.map((card, index) => (
+        {/* Enhanced Header Section */}
+        <motion.div 
+          className="text-center mb-20"
+          variants={slideUpVariants}
+        >
           <motion.div
-            key={index}
-            variants={cardVariants}
-            whileHover="hover"
-            custom={index}
-            className={`${card.bgColor} px-6 py-8 flex flex-col gap-6 justify-between text-white rounded-2xl shadow-xl relative overflow-hidden group h-full`}
+            className="inline-block relative"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            <motion.div
-              className="absolute inset-0 opacity-10"
-              initial={{ scale: 1 }}
-              whileHover={{ scale: 1.05 }} // Reduced from 1.1
-              transition={{ duration: 0.3 }} // Reduced from 0.5
+            <motion.h2 
+              className="text-5xl lg:text-6xl font-bold text-[#001C73] mb-6 relative"
+              variants={textRevealVariants}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-            </motion.div>
-
-            {/* Header */}
-            <motion.div
-              variants={textVariants}
-              className="text-center relative z-10"
-            >
-              <motion.h3
-                variants={textVariants}
-                className="text-xl lg:text-2xl font-light mb-2 text-gray-200"
-              >
-                We Provide
-              </motion.h3>
-              <motion.span
-                variants={titleVariants}
-                className="block font-bold text-2xl lg:text-3xl mb-2 text-white"
-              >
-                {card.title}
-              </motion.span>
-              <motion.p
-                variants={textVariants}
-                className="text-lg font-medium text-gray-300"
-              >
-                Solutions & Services
-              </motion.p>
-            </motion.div>
-
-            {/* Image */}
-            <motion.div
-              variants={imageVariants}
-              whileHover="hover"
-              className="w-full overflow-hidden rounded-xl flex-1 min-h-[200px] max-h-[240px] relative"
-            >
-              <Image 
-                src={card.image} 
-                alt={`${card.type} Construction`}
-                className="w-full h-full object-cover"
-                placeholder="blur"
+              Our Services
+              <motion.div 
+                className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#001C73] to-transparent"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                viewport={{ once: true }}
               />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"
-                initial={{ opacity: 0.5 }}
-                whileHover={{ opacity: 0.2 }}
-                transition={{ duration: 0.2 }} // Reduced from 0.3
-              />
-            </motion.div>
-
-            {/* Description */}
-            <motion.p
-              variants={textVariants}
-              className="text-center text-gray-300 leading-relaxed text-base lg:text-lg flex-1 px-2"
-            >
-              {card.description}
-            </motion.p>
-
-            {/* Button */}
-            <motion.button
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
-              className="border-2 border-white px-4 py-2 font-bold rounded-lg cursor-pointer text-base lg:text-lg relative overflow-hidden group/btn mt-2"
-            >
-              <span className="relative z-10">REQUEST A QUOTE</span>
-              
-              <motion.div
-                className="absolute inset-0 bg-white"
-                initial={{ scale: 0, opacity: 0 }}
-                whileHover={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.2 }} // Reduced from 0.3
-              />
-            </motion.button>
+            </motion.h2>
           </motion.div>
-        ))}
+          
+          <motion.div 
+            className="w-32 h-1 bg-gradient-to-r from-[#001C73] to-[#001C73]/50 mx-auto mb-8 rounded-full"
+            initial={{ width: 0, opacity: 0 }}
+            whileInView={{ width: 128, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            viewport={{ once: true }}
+          />
+          
+          <motion.p 
+            className="text-2xl text-gray-600 max-w-2xl mx-auto font-light"
+            variants={textRevealVariants}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400 }}
+          >
+            Connect with us and explore our comprehensive construction solutions
+          </motion.p>
+        </motion.div>
+
+        {/* Enhanced Social Icons */}
+        <motion.div 
+          className="flex justify-center items-center gap-8 lg:gap-12 mb-20"
+          variants={containerVariants}
+        >
+          {socialLinks.map((social, index) => (
+            <motion.a
+              key={index}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              className="bg-white p-5 rounded-3xl text-[#001C73] cursor-pointer relative overflow-hidden group shadow-2xl border-2 border-[#001C73]/20 hover:border-[#001C73] transition-all duration-300"
+              custom={index}
+              variants={socialIconVariants}
+              initial="hidden"
+              whileInView="visible"
+              whileHover="hover"
+              viewport={{ once: true }}
+              animate={floatingAnimation}
+            >
+              <div className="relative z-10">
+                {social.icon}
+              </div>
+              
+              {/* Enhanced Tooltip */}
+              <motion.div
+                className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-[#001C73] text-white px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 whitespace-nowrap shadow-lg"
+                initial={{ y: 20, scale: 0.8 }}
+                whileHover={{ y: 0, scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {social.label}
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#001C73] rotate-45" />
+              </motion.div>
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Enhanced Cards Grid */}
+        <motion.div 
+          className="grid lg:grid-cols-2 grid-cols-1 justify-center items-stretch gap-12 lg:gap-16 w-full"
+          variants={containerVariants}
+        >
+          {cards.map((card, index) => (
+            <motion.div
+              key={index}
+              className="bg-white px-10 py-10 flex flex-col gap-10 justify-between text-gray-800 rounded-3xl shadow-2xl relative overflow-hidden group h-full border-2 border-gray-100 hover:border-[#001C73] transition-all duration-500"
+              variants={index % 2 === 0 ? slideInLeftVariants : slideInRightVariants}
+              whileHover="hover"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              {/* Enhanced Background Pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50/80 to-white" />
+              
+              {/* Enhanced Header */}
+              <motion.div 
+                className="text-center relative z-10"
+                variants={staggerTextVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                <motion.h3 
+                  className="text-2xl font-light mb-3 text-gray-600"
+                  variants={textRevealVariants}
+                >
+                  We Provide
+                </motion.h3>
+                <motion.span 
+                  className="block font-bold text-3xl mb-3 text-[#001C73] bg-gradient-to-r from-[#001C73] to-[#0026A3] bg-clip-text text-transparent"
+                  variants={textRevealVariants}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {card.title}
+                </motion.span>
+                <motion.p 
+                  className="text-xl font-medium text-gray-500"
+                  variants={textRevealVariants}
+                >
+                  Solutions & Services
+                </motion.p>
+              </motion.div>
+
+              {/* Enhanced Image Section */}
+              <motion.div 
+                className="w-full overflow-hidden rounded-2xl flex-1 min-h-[250px] max-h-[280px] relative"
+                whileHover="hover"
+              >
+                <motion.div
+                  variants={imageHoverVariants}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src={card.image}
+                    alt={`${card.type} Construction`}
+                    className="w-full h-full object-cover"
+                    placeholder="blur"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                </motion.div>
+                
+                {/* Enhanced Type Badge */}
+                <motion.div 
+                  className="absolute top-6 left-6 bg-gradient-to-br from-[#001C73] to-[#0026A3] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg"
+                  initial={{ scale: 0, rotate: -180 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 200,
+                    delay: 0.8 + index * 0.2
+                  }}
+                  viewport={{ once: true }}
+                  whileHover={{ 
+                    scale: 1.1,
+                    rotate: 5,
+                    transition: { duration: 0.3 }
+                  }}
+                >
+                  {card.type}
+                </motion.div>
+              </motion.div>
+
+              {/* Enhanced Description with Black Text */}
+              <motion.div 
+                className="text-center flex-1 px-4"
+                variants={paragraphVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                <p className="text-black text-lg lg:text-xl leading-relaxed font-medium">
+                  {card.description}
+                </p>
+              </motion.div>
+
+              {/* Enhanced Button */}
+              <motion.button
+                className="border-2 border-[#001C73] px-4 py-2 rounded-xl cursor-pointer text-lg  relative overflow-hidden group/btn text-[#001C73] hover:text-white transition-colors duration-300"
+                variants={buttonHoverVariants}
+                whileHover="hover"
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1 + index * 0.2 }}
+                viewport={{ once: true }}
+              >
+                <span className="relative z-10">REQUEST A QUOTE</span>
+                <motion.div
+                  className="absolute inset-0 bg-[#001C73] transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500"
+                />
+              </motion.button>
+            </motion.div>
+          ))}
+        </motion.div>
       </motion.div>
-    </motion.section>
+    </section>
   );
 }
 
