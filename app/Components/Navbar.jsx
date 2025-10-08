@@ -52,7 +52,7 @@ const Navbar = () => {
             <div className='hidden md:flex items-center space-x-1'>
               <ul className='flex items-center space-x-1'>
                 {[
-                  { href: "/Pages/home", label: "Home" },
+                  { href: "/", label: "Home" },
                   { href: "/Pages/about", label: "About" },
                   { href: "/why-us", label: "Why Us" },
                   { href: "/gallery", label: "Gallery" },
