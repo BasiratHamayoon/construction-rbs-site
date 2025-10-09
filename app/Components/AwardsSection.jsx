@@ -1,152 +1,148 @@
 "use client";
-import { motion } from 'framer-motion';
-import { FaTrophy, FaAward, FaMedal, FaStar, FaRibbon, FaShieldAlt } from 'react-icons/fa';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
+import { FaChevronLeft, FaChevronRight, FaTrophy, FaAward, FaMedal, FaStar } from 'react-icons/fa';
 
-const AwardsSection = () => {
+// Mock award images - replace with your actual images
+import award1 from '../../public/About/1.jpg';
+import award2 from '../../public/About/2.jpg';
+import award3 from '../../public/About/3.jpg';
+import award4 from '../../public/About/4.jpg';
+import award5 from '../../public/About/5.jpg';
+
+const AwardWinningSection = () => {
+  const [activeCard, setActiveCard] = useState(0);
+  const scrollRef = useRef(null);
+
   const awards = [
     {
       id: 1,
-      title: "Excellence in Construction",
+      title: "Excellence in Construction 2024",
       year: "2024",
-      description: "Recognized for outstanding construction quality and innovation in commercial projects",
+      description: "Awarded for exceptional construction quality and innovative project delivery in commercial infrastructure.",
+      image: award1,
       icon: FaTrophy,
-      color: "#FFD700"
+      color: "#FFD700",
+      category: "Construction Excellence"
     },
     {
       id: 2,
-      title: "Safety Excellence Award",
+      title: "Safety Innovation Award",
       year: "2023",
-      description: "Zero incident rate and exceptional safety standards across all sites",
-      icon: FaShieldAlt,
-      color: "#001C73"
+      description: "Recognized for implementing cutting-edge safety protocols and maintaining zero incident records.",
+      image: award2,
+      icon: FaAward,
+      color: "#001C73",
+      category: "Safety & Compliance"
     },
     {
       id: 3,
-      title: "Sustainable Builder",
+      title: "Sustainable Design Pioneer",
       year: "2024",
-      description: "Leadership in sustainable construction practices and green building",
-      icon: FaAward,
-      color: "#00A86B"
+      description: "Honored for leadership in sustainable construction practices and eco-friendly building solutions.",
+      image: award3,
+      icon: FaMedal,
+      color: "#00A86B",
+      category: "Sustainability"
     },
     {
       id: 4,
-      title: "Innovation in Design",
+      title: "Client Choice Award",
       year: "2023",
-      description: "Pioneering innovative architectural designs and construction techniques",
-      icon: FaMedal,
-      color: "#0026A3"
+      description: "Voted by clients for outstanding service delivery and exceptional project management.",
+      image: award4,
+      icon: FaStar,
+      color: "#FF6B35",
+      category: "Client Satisfaction"
     },
     {
       id: 5,
-      title: "Client Satisfaction",
+      title: "Innovation in Architecture",
       year: "2024",
-      description: "Highest client satisfaction ratings in the construction industry",
-      icon: FaStar,
-      color: "#FF6B35"
+      description: "Celebrated for revolutionary architectural designs that redefine urban landscapes.",
+      image: award5,
+      icon: FaTrophy,
+      color: "#0026A3",
+      category: "Design Innovation"
     },
     {
       id: 6,
-      title: "Community Impact",
+      title: "Community Impact Award",
       year: "2023",
-      description: "Outstanding contribution to community development projects",
-      icon: FaRibbon,
-      color: "#8B4513"
+      description: "Recognized for significant contributions to community development and social infrastructure.",
+      image: award1,
+      icon: FaAward,
+      color: "#8B4513",
+      category: "Community Service"
     }
   ];
 
-  // Stunning animation variants
+  // New animation variants - cards coming from left and right
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.2,
         duration: 1
       }
     }
   };
 
   const cardVariants = {
-    hidden: { 
+    hidden: (index) => ({ 
       opacity: 0,
-      y: 80,
-      scale: 0.8,
-      rotateY: -30
-    },
+      x: index % 2 === 0 ? -200 : 200,
+      y: 50,
+      scale: 0.8
+    }),
     visible: {
       opacity: 1,
+      x: 0,
       y: 0,
       scale: 1,
-      rotateY: 0,
       transition: {
         type: "spring",
-        stiffness: 200,
+        stiffness: 120,
         damping: 15,
         duration: 0.8
       }
     },
     hover: {
-      y: -15,
-      scale: 1.05,
-      rotateY: 5,
-      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+      y: -10,
+      scale: 1.02,
+      boxShadow: "0 20px 40px -10px rgba(0, 28, 115, 0.2)",
       transition: {
         type: "spring",
-        stiffness: 400,
+        stiffness: 300,
         damping: 20,
         duration: 0.3
       }
     }
   };
 
-  const iconVariants = {
-    hidden: { 
-      scale: 0,
-      rotate: -180
-    },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 15,
-        duration: 0.6
-      }
-    },
-    hover: {
-      scale: 1.2,
-      rotate: 360,
-      transition: {
-        duration: 0.5,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const textVariants = {
+  const titleVariants = {
     hidden: { 
       opacity: 0,
-      y: 30,
-      filter: "blur(10px)"
+      y: 50
     },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       transition: {
         type: "spring",
-        stiffness: 200,
+        stiffness: 100,
         damping: 15,
-        duration: 0.6
+        duration: 0.8
       }
     }
   };
 
   const backgroundVariants = {
     animate: {
-      scale: [1, 1.3, 1],
-      opacity: [0.1, 0.3, 0.1],
+      scale: [1, 1.2, 1],
+      opacity: [0.1, 0.2, 0.1],
       transition: {
         duration: 6,
         repeat: Infinity,
@@ -155,54 +151,45 @@ const AwardsSection = () => {
     }
   };
 
-  const floatingElements = {
-    animate: {
-      y: [0, -25, 0],
-      rotate: [0, 10, 0],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      const newActive = activeCard > 0 ? activeCard - 1 : awards.length - 1;
+      setActiveCard(newActive);
+      scrollRef.current.scrollLeft -= 420;
     }
   };
 
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      const newActive = activeCard < awards.length - 1 ? activeCard + 1 : 0;
+      setActiveCard(newActive);
+      scrollRef.current.scrollLeft += 420;
+    }
+  };
+
+  // Auto-scroll effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      scrollRight();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [activeCard]);
+
   return (
-    <section className="relative py-20 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 overflow-hidden">
+    <section className="relative py-20 bg-white overflow-hidden">
       {/* Background Elements */}
       <motion.div 
-        className="absolute top-10 left-10 w-80 h-80 bg-[#001C73]/10 rounded-full blur-3xl"
+        className="absolute top-10 left-10 w-60 h-60 bg-[#001C73]/5 rounded-full blur-2xl"
         variants={backgroundVariants}
         animate="animate"
       />
       
       <motion.div 
-        className="absolute bottom-10 right-10 w-96 h-96 bg-[#0026A3]/10 rounded-full blur-3xl"
+        className="absolute bottom-10 right-10 w-72 h-72 bg-[#0026A3]/5 rounded-full blur-2xl"
         variants={backgroundVariants}
         animate="animate"
         transition={{ delay: 3 }}
-      />
-
-      {/* Floating Geometric Shapes */}
-      <motion.div 
-        className="absolute top-20 right-20 w-12 h-12 border-3 border-[#001C73]/20 rounded-xl transform rotate-45"
-        variants={floatingElements}
-        animate="animate"
-      />
-      
-      <motion.div 
-        className="absolute bottom-32 left-32 w-8 h-8 bg-[#0026A3]/20 rounded-full"
-        animate={{
-          y: [0, -40, 0],
-          scale: [1, 1.5, 1],
-          opacity: [0.4, 0.8, 0.4],
-          transition: {
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }
-        }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -216,207 +203,184 @@ const AwardsSection = () => {
         >
           <motion.div 
             className="inline-flex items-center gap-4 mb-6"
-            variants={textVariants}
+            variants={titleVariants}
           >
             <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-[#001C73] rounded-full"></div>
-            <span className="text-sm font-bold text-[#001C73] tracking-widest uppercase bg-[#001C73]/10 px-4 py-2 rounded-full">
-              Our Achievements
+            <span className="text-sm font-bold text-[#001C73] tracking-widest uppercase">
+              Award Winning Excellence
             </span>
             <div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-[#001C73] rounded-full"></div>
           </motion.div>
 
           <motion.h2 
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
-            variants={textVariants}
+            variants={titleVariants}
           >
-            Awards & <span className="bg-gradient-to-r from-[#001C73] via-[#0026A3] to-[#001C73] bg-clip-text text-transparent">Recognition</span>
+            Our <span className="bg-gradient-to-r from-[#001C73] to-[#0026A3] bg-clip-text text-transparent">Awards</span>
           </motion.h2>
 
           <motion.div 
-            className="w-24 h-1.5 bg-gradient-to-r from-[#001C73] to-[#0026A3] rounded-full mx-auto mb-8"
-            variants={textVariants}
-            whileHover={{ 
-              scaleX: 2,
-              transition: { duration: 0.3 }
-            }}
+            className="w-20 h-1 bg-gradient-to-r from-[#001C73] to-[#0026A3] rounded-full mx-auto mb-8"
+            variants={titleVariants}
           />
 
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
-            variants={textVariants}
+            variants={titleVariants}
           >
             Celebrating excellence and recognition in construction innovation, safety, and client satisfaction
           </motion.p>
         </motion.div>
 
-        {/* Awards Grid */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-        >
-          {awards.map((award, index) => (
-            <motion.div
-              key={award.id}
-              className="group relative"
-              variants={cardVariants}
-              whileHover="hover"
-            >
-              {/* Award Card */}
-              <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-200/50 backdrop-blur-sm h-full">
-                {/* Icon Container */}
-                <motion.div 
-                  className="relative p-8 flex justify-center"
-                  variants={iconVariants}
-                >
-                  <div className="relative">
-                    <motion.div 
-                      className="absolute inset-0 bg-current rounded-full blur-lg opacity-20"
-                      style={{ color: award.color }}
-                      animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.2, 0.4, 0.2]
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                    <award.icon 
-                      className="text-5xl relative z-10" 
-                      style={{ color: award.color }}
-                    />
-                  </div>
-                </motion.div>
+        {/* Horizontal Scrolling Cards Container */}
+        <div className="relative">
+          {/* Navigation Buttons - Fully Rounded */}
+          <motion.button
+            onClick={scrollLeft}
+            className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-30 bg-white border border-gray-300 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
+            whileHover={{ 
+              scale: 1.1,
+              backgroundColor: '#001C73'
+            }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <FaChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-white transition-all duration-300" />
+          </motion.button>
 
-                {/* Content */}
-                <div className="p-8 pt-0">
-                  {/* Year Badge */}
-                  <motion.div 
-                    className="inline-block px-4 py-2 bg-gray-100 rounded-full mb-4"
-                    variants={textVariants}
-                  >
-                    <span className="text-sm font-semibold text-gray-700">{award.year}</span>
-                  </motion.div>
+          <motion.button
+            onClick={scrollRight}
+            className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-30 bg-white border border-gray-300 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
+            whileHover={{ 
+              scale: 1.1,
+              backgroundColor: '#001C73'
+            }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <FaChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white transition-all duration-300" />
+          </motion.button>
 
-                  {/* Title */}
-                  <motion.h3 
-                    className="text-xl font-bold text-gray-900 mb-4 group-hover:text-[#001C73] transition-colors duration-300"
-                    variants={textVariants}
-                  >
-                    {award.title}
-                  </motion.h3>
-
-                  {/* Description */}
-                  <motion.p 
-                    className="text-gray-600 leading-relaxed"
-                    variants={textVariants}
-                  >
-                    {award.description}
-                  </motion.p>
-                </div>
-
-                {/* Hover Border Effect */}
-                <motion.div 
-                  className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-[#001C73]/20"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-
-                {/* Corner Accents */}
-                <motion.div 
-                  className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-[#001C73]/30 rounded-tr-lg"
-                  animate={{
-                    opacity: [0.3, 0.7, 0.3]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-                <motion.div 
-                  className="absolute bottom-4 left-4 w-3 h-3 border-b-2 border-l-2 border-[#0026A3]/30 rounded-bl-lg"
-                  animate={{
-                    opacity: [0.3, 0.7, 0.3]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                />
-              </div>
-
-              {/* Floating Indicator */}
-              <motion.div 
-                className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-[#001C73] to-[#0026A3] rounded-full shadow-lg"
-                animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [1, 0.7, 1]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: index * 0.2
-                }}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Stats Section */}
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16"
-          initial="hidden"
-          whileInView="visible"
-          variants={containerVariants}
-          viewport={{ once: true }}
-        >
-          {[
-            { number: '25+', label: 'Awards Won' },
-            { number: '15', label: 'Years Excellence' },
-            { number: '98%', label: 'Client Satisfaction' },
-            { number: '50+', label: 'Projects Completed' }
-          ].map((stat, index) => (
-            <motion.div 
-              key={stat.label}
-              className="text-center p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
-              variants={textVariants}
-              whileHover={{ 
-                scale: 1.05,
-                y: -5,
-                borderColor: '#001C73/30'
-              }}
-            >
-              <motion.div 
-                className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 to-[#001C73] bg-clip-text text-transparent mb-2"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ 
-                  delay: index * 0.1,
-                  type: "spring",
-                  stiffness: 200
-                }}
+          {/* Horizontal Scroll Container */}
+          <motion.div
+            ref={scrollRef}
+            className="flex overflow-x-auto py-8 px-4 snap-x snap-mandatory scrollbar-hide"
+            style={{ 
+              scrollBehavior: 'smooth',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none'
+            }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            {/* Hide scrollbar for Webkit browsers */}
+            <style jsx>{`
+              .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+              }
+            `}</style>
+            
+            {awards.map((award, index) => (
+              <motion.div
+                key={award.id}
+                className="flex-none w-80 mx-4 snap-center"
+                variants={cardVariants}
+                custom={index}
+                whileHover="hover"
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
               >
-                {stat.number}
+                {/* Clean Award Card */}
+                <div className={`relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 ${
+                  index === activeCard ? 'ring-2 ring-[#001C73]' : ''
+                }`}>
+                  {/* Image Container */}
+                  <div className="relative h-64 overflow-hidden">
+                    <Image
+                      src={award.image}
+                      alt={award.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                    
+                    {/* Simple Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    
+                    {/* Award Icon */}
+                    <div className="absolute top-4 left-4">
+                      <award.icon 
+                        className="text-2xl" 
+                        style={{ color: award.color }}
+                      />
+                    </div>
+
+                    {/* Year Badge */}
+                    <div className="absolute top-4 right-4 bg-[#001C73] text-white rounded-lg px-3 py-1">
+                      <span className="text-sm font-bold">{award.year}</span>
+                    </div>
+
+                    {/* Category */}
+                    <div className="absolute bottom-4 left-4">
+                      <span className="text-white text-sm font-medium bg-black/30 backdrop-blur-sm px-3 py-1 rounded-lg">
+                        {award.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                      {award.title}
+                    </h3>
+                    
+                    <p className="text-gray-600 leading-relaxed text-sm">
+                      {award.description}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
-              <div className="text-sm font-medium text-gray-600">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Dots Indicator */}
+          <motion.div 
+            className="flex justify-center space-x-3 mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            viewport={{ once: true }}
+          >
+            {awards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setActiveCard(index);
+                  if (scrollRef.current) {
+                    scrollRef.current.scrollLeft = index * 420;
+                  }
+                }}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === activeCard 
+                    ? 'bg-[#001C73] w-8' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+              />
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default AwardsSection;
+export default AwardWinningSection;

@@ -117,8 +117,9 @@ function GallerySection() {
   return (
     <>
       <section 
+        id="gallery" // Added ID for scrolling
         ref={ref}
-        className='py-20 bg-white'
+        className='py-20 bg-white scroll-mt-20' // Added scroll-margin for fixed header
       >
         <div className='max-w-7xl mx-auto px-8 lg:px-20'>
           {/* Section Title */}
@@ -278,4 +279,4 @@ function GallerySection() {
   )
 }
 
-export default GallerySection
+export default GallerySection;
